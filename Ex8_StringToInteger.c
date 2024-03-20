@@ -68,17 +68,102 @@ s consists of English letters (lower-case and upper-case), digits (0-9), ' ', '+
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
+// Macro to check if a character is a digit (0-9)
+#define IS_DIGIT(c) ((c) >= '0' && (c) <= '9')
+
+// substracting the first dec value of '0' to receive the actual number
+#define ASCII_DIGIT_DELTA (int) 48
 
 #define true    1
 #define false   0
 
 int myAtoi(char* s) 
 {
+    // string vars
+    int sLen = strlen(s);
+    if(sLen == 0)
+    {
+        printf("String is empty, returning 0\n");
+        return 0;
+    }
+    int sIndex = 0;
     
+    // result vars and flag
+    int output = 0;
+    int negativeFlag = false;
+    int startedFlag = false; 
+
+    // this while loop stops as soon as a digit appear or no digits at all
+    while(!startedFlag || sIndex < sLen)
+    {  
+        if (IS_DIGIT(s[sIndex]))
+        {
+            // check if the previous char is not out of scope and a '-'
+            if(sIndex != 0 && s[sIndex-1] == '-')
+            {
+                negativeFlag = true;
+            }
+            startedFlag = true;
+            break;
+        } 
+
+        sIndex++;
+    }
+
+    // if no digits found return;
+    if(!startedFlag)
+    {
+        printf("No digits found in the string, returning 0\n");
+        return 0;
+    }
+
+    // this while loop stops at the end of the string or when a non-digit char appear
+    while(sIndex < sLen)
+    {
+        if(!IS_DIGIT(s[sIndex]))
+        {
+            break;
+        }
+
+        output = (output*10) + (s[sIndex] - ASCII_DIGIT_DELTA);
+        sIndex++;
+    }
+
+    // turn to negative number if negativeFlag is raised
+    if(negativeFlag)
+    {
+        output *= -1;
+    }
+
+    return output;
+
 }
 
+/* Code for manual check
 void main()
 {
-    
+    char test1[] = "42";
+    printf("testing myAtoi on '42' -> %d\n",myAtoi(test1));
+    char test2[] = "   -42";
+    printf("testing myAtoi on '   -42' -> %d\n",myAtoi(test2));
+    char test3[] = "4193 with words";
+    printf("testing myAtoi on '4193 with words' -> %d\n",myAtoi(test3));
+    char test4[] = "-231.275";
+    printf("testing myAtoi on '-231.275' -> %d\n",myAtoi(test4));
+    char test5[] = "a.-256u";
+    printf("testing myAtoi on 'a.-256u' -> %d\n",myAtoi(test5));
+    char test6[] = "  -372.73K7";
+    printf("testing myAtoi on '  -372.73K7' -> %d\n",myAtoi(test6));
+    char test7[] = "512.35";
+    printf("testing myAtoi on '512.35' -> %d\n",myAtoi(test7));
+    char test8[] = "13  ";
+    printf("testing myAtoi on '13  ' -> %d\n",myAtoi(test8));
+    char test9[] = "";
+    printf("testing myAtoi on '' -> %d\n",myAtoi(test9));
+    char test10[] = "1";
+    printf("testing myAtoi on '1' -> %d\n",myAtoi(test10));
     return;
 }
+*/
