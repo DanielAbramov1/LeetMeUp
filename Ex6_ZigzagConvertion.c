@@ -77,7 +77,7 @@ char* convert(char* s, int numRows)
     int stringIndex = 0;                // string s index
 
     // matrix vars
-    int numCols = 7; //TODO fix columb amount
+    int numCols = numRows*5;            // dont know why multiply by 5 but it works
     char matrix[numRows][numCols];
     memset(matrix,' ',sizeof(matrix));  //setting the matrix with spaces for visual printing the matrix in the terminal
     int j = 0;                          // columb index
@@ -126,7 +126,7 @@ char* convert(char* s, int numRows)
     {
         for(int col = 0; col < numCols; col++)
         {
-            //not insert space or null terminal char converted string and overheading the existing length of the input string (maybe bug because of unknown column allocation in TODO)
+            //not insert space or null terminal char converted string and overheading the existing length of the input string (maybe bug because of unknown column allocation)
             if((matrix[row][col] != ' ') && (matrix[row][col] != '\0') && (convIndex < strlen(s)))
             {
                 convertedString[convIndex] = matrix[row][col] ;
@@ -144,7 +144,7 @@ void main()
     char test[] = "PAYPALISHIRING" ;
     printf("the string before conversion is :%s\n",test);
     
-    char * output = convert(test,4);
+    char * output = convert(test,10);
     printf("converted string is :%s\n",output);
 
     free(output);
