@@ -36,11 +36,47 @@ Constraints:
 
 bool isPalindrome(int x) 
 {
+    // 1st edge case
+    if(x == 0)
+        return true;
     
+    // 2nd edge case
+    if(x < 0)
+        return false;
+
+    int xTemp = x;
+    int xReverse = 0;
+
+    while(xTemp > 0)
+    {
+        xReverse = (xReverse*10) + (xTemp%10);
+        xTemp = xTemp/10;
+    }
+
+    if(x == xReverse)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
+/* Code for manual check
 void main()
 {
-
+    int input;
+    while(1)
+    {
+        printf("please enter input number:\n");
+        scanf("%d",&input);
+        if(isPalindrome(input))
+            printf("the number %d is a palindrome\n", input);
+        else
+            printf("the number %d is NOT palindrome\n", input);
+    }
+        
     return;
 }
+*/
