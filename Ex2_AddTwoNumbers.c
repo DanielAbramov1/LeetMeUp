@@ -136,7 +136,7 @@ struct ListNode* addTwoNumbers( ListNode_t* l1,  ListNode_t* l2)
 
 
 /*  Code for manual check
-
+ 
 void printList(ListNode_t * listToPrint)
 {
     //  for not loosing the head
