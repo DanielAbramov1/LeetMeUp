@@ -45,7 +45,7 @@ s consists of English letters (lower-case and upper-case), ',' and '.'.
 #include <stdio.h>
 #include <string.h>
 
-#define ENABLE_MATRIX_PRINT
+// #define ENABLE_MATRIX_PRINT
 
 void printMatrix(char *matrix, int rows, int cols) 
 {
@@ -139,6 +139,7 @@ char* convert(char* s, int numRows)
 }
 
 
+/* Code for manual check
 void main() 
 {
     char test[] = "PAYPALISHIRING" ;
@@ -151,3 +152,4 @@ void main()
 
     return;
 }
+*/
