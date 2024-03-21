@@ -32,6 +32,7 @@ s consists of English letters, digits, symbols and spaces.
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 
+
 #include <stdio.h>
 #include <string.h>
 
