@@ -4,6 +4,7 @@
         "cstdlib": "c",
         "stdio.h": "c",
         "stdlib.h": "c",
-        "main_header.h": "c"
+        "main_header.h": "c",
+        "stdint.h": "c"
     }
 }

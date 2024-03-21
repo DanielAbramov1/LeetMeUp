@@ -31,14 +31,49 @@ n == height.length
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
 
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
+
+
+//complexity O(n)
 int maxArea(int* height, int heightSize) 
 {
-    
+    int maxArea = 0;
+    int left = 0;               // Left pointer starting from the beginning of the array
+    int right = heightSize - 1; // Right pointer starting from the end of the array
+
+    while (left < right) 
+    {
+        int tempArea = (right - left) * MIN(height[left], height[right]); // Calculate area
+
+        if (tempArea > maxArea) 
+        {
+            maxArea = tempArea;
+        }
+
+        // Move the pointer with smaller height inward to potentially increase the area
+        if (height[left] < height[right]) 
+        {
+            left++;
+        } 
+        else 
+        {
+            right--;
+        }
+    }
+
+    return maxArea;
 }
 
+/* Code for manual check
 void main()
 {
-
+    int arr[] = {1,8,6,2,5,4,8,3,7};
+    printf("the max area of given heigths is : %d\n", maxArea(arr, sizeof(arr)/sizeof(int)));
     return; 
 }
+*/
