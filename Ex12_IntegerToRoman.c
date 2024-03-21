@@ -46,13 +46,64 @@ Constraints:
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
 char* intToRoman(int num) 
 {
-    
+    // output string allocation and verification and initialization
+    char * output = (char*)calloc(100, sizeof(char));
+    if(output == NULL)
+    {
+        printf("Memory Allocation failed\n");
+        return NULL;
+    }
+
+    // define arrays for Roman numeral symbols and their corresponding values
+    char * symbols[] = {"M", "D", "C", "L", "X", "V", "I"};
+    int values[] = {1000, 500, 100, 50, 10, 5, 1};
+
+    // iterate through the symbol-value arrays to construct the Roman numeral
+    for (int i = 0; i < 7; i += 2) 
+    {
+        while (num >= values[i]) 
+        {
+            strcat(output, symbols[i]);
+            num -= values[i];
+        }
+
+        // check for subtraction cases and append the appropriate symbols
+        if (i < 6 && num >= values[i] - values[i + 2]) 
+        {
+            strcat(output, symbols[i + 2]);
+            strcat(output, symbols[i]);
+            num -= (values[i] - values[i + 2]);
+        }
+    }
+        
+    return output;
 }
 
 void main()
 {
+    // int x = 3;
+    // char* roman = intToRoman(x);
+    // printf("%d in roman is %s\n",x, roman);
+    // int x = 58;
+    // char* roman = intToRoman(x);
+    // printf("%d in roman is %s\n",x, roman);
+    int x;
+    while(1)
+    {
+        printf("Enter number to convert to roman\n");
+        scanf("%d",&x);
 
+        char* roman = intToRoman(x);
+        printf("%d in roman is %s\n",x, roman);
+
+        free(roman);
+
+    }
     return;
 }
