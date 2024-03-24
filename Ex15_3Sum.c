@@ -41,6 +41,9 @@ Constraints:
  * The sizes of the arrays are returned as *returnColumnSizes array.
  * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
  */
+
+//TODO Ex15 not done
+
 int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) 
 {
     
@@ -48,6 +51,6 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
 
 void main()
 {
-    
+
     return;
 }
