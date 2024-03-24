@@ -38,18 +38,8 @@ strs[i] consists of only lowercase English letters.
 
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <common.h>
 
-#define true    1
-#define false   0
-
-#define CHECK_VALID_PTR(ptr) \
-    if(ptr == NULL) { \
-        printf("Couldn't allocate memory <>\n"); \
-        return NULL; \
-    }
 
 char* longestCommonPrefix(char** strs, int strsSize) 
 {
@@ -65,7 +55,7 @@ char* longestCommonPrefix(char** strs, int strsSize)
 
     *commonPrefixStr = '\0'; 
     
-    // if there is only one string there are no common prefixes therefor skip the algorithm
+    // if there is only one string there are no common prefixes therefore skip the algorithm
     if(strsSize <= 1)
     {
         breakLoopFlag = true;
@@ -79,10 +69,11 @@ char* longestCommonPrefix(char** strs, int strsSize)
         for (stringIndex = 0; stringIndex < strsSize; stringIndex++)
         {
             // check if the n'th char element in every string is not equal (see explanation above) OR the char in the n'th string is equal to null terminal '\0'
-            if(*(*strs + charIndex) != *(*(strs + stringIndex) + charIndex) || *(*(strs + stringIndex) + charIndex) == '\0')
-            {   
+            if(*(*strs + charIndex) != *(*(strs + stringIndex) + charIndex) || *(*(strs + stringIndex) + charIndex) == '\0') 
+            {
                 break; // break from the for loop no need to proceed to the next string
             }
+
             count++;
         }
 
@@ -109,6 +100,7 @@ char* longestCommonPrefix(char** strs, int strsSize)
     return commonPrefixStr;
 }   
 
+/* Code for manual check
 void main()
 {
     char *test1[] = {"flower","flow","flight"};
@@ -142,3 +134,4 @@ void main()
     free(ptr6);
     return;
 }
+*/
