@@ -27,11 +27,20 @@ strs[i] consists of only lowercase English letters.
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 
+/*@ Accessing the char elements in an array of strings explanaition 
 
+    char signleCharElement = *(*(myStringsArray + stringIndex) + charIndex);
+
+    signleCharElement   - signle char element value
+    myStringArray       - array of strings like in the excersize : ["flower","flow","flight"]
+    stringIndex         - index points to the number of the string like stringArr[i];
+    charIndex           - char index in the relative string like stringArr[][i];
+
+*/
 char* longestCommonPrefix(char** strs, int strsSize) 
 {
-    
-}
+
+}   
 
 void main()
 {
