@@ -45,6 +45,12 @@ strs[i] consists of only lowercase English letters.
 #define true    1
 #define false   0
 
+#define CHECK_VALID_PTR(ptr) \
+    if(ptr == NULL) { \
+        printf("Couldn't allocate memory <>\n"); \
+        return NULL; \
+    }
+
 char* longestCommonPrefix(char** strs, int strsSize) 
 {
     int prefixCounter   = 0;
@@ -55,11 +61,7 @@ char* longestCommonPrefix(char** strs, int strsSize)
 
     //allocate 1 char, check allocation and asign null terminal
     char* commonPrefixStr = (char*)malloc(1);
-    if(commonPrefixStr == NULL)
-    {
-        printf("Allocation Failed\n");
-        return NULL;
-    }
+    CHECK_VALID_PTR(commonPrefixStr);
 
     *commonPrefixStr = '\0'; 
     
@@ -99,6 +101,7 @@ char* longestCommonPrefix(char** strs, int strsSize)
     if(prefixCounter != 0)
     {
         commonPrefixStr = (char*)realloc(commonPrefixStr, prefixCounter+1);   //+1 for null terminal
+        CHECK_VALID_PTR(commonPrefixStr);
         strncpy(commonPrefixStr, *strs, prefixCounter);     // copy the char from the first string in the array
         commonPrefixStr[prefixCounter] = '\0';              
     }
