@@ -40,7 +40,6 @@ strs[i] consists of only lowercase English letters.
 
 #include <common.h>
 
-
 char* longestCommonPrefix(char** strs, int strsSize) 
 {
     int prefixCounter   = 0;
