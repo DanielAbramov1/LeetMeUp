@@ -5,6 +5,8 @@
         "stdio.h": "c",
         "stdlib.h": "c",
         "main_header.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "limits.h": "c",
+        "common.h": "c"
     }
 }
