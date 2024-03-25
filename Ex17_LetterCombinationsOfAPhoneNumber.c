@@ -34,6 +34,9 @@ digits[i] is a digit in the range ['2', '9'].
  * Note: The returned array must be malloced, assume caller calls free().
  */
 
+
+//TODO Ex17 not done
+
 char** letterCombinations(char* digits, int* returnSize) 
 {
     
