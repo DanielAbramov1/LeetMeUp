@@ -153,6 +153,7 @@ bool isValid(char* s)
     }
 }
 
+/* Code for manual check
 void main()
 {
     //enter use case here
@@ -168,3 +169,4 @@ void main()
 
     return;
 }
+*/
