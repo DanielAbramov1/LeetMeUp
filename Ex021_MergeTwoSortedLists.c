@@ -241,6 +241,7 @@ struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2)
     return head;
 }
 
+/* Code for manual check
 void printList(ListNode_t * listToPrint)
 {
     //  for not loosing the head
@@ -293,3 +294,4 @@ void main()
 
     return;
 }
+*/
