@@ -118,7 +118,7 @@ void main()
     int arr[] = {-17,15,0,3,7,-5,9,13};
     int target = 3;
 
-    int arrSize = sizeo1f(arr)/sizeof(int);
+    int arrSize = sizeof(arr)/sizeof(int);
     printf("size of input arr = %d\n",arrSize);
 
     int newArrSize;
