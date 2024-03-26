@@ -34,7 +34,7 @@ s consists of parentheses only '()[]{}'.
 #include <stdbool.h>
 #include "common.h"
 
-#define MAX_STACK_SIZE 20
+#define MAX_STACK_SIZE 10000
 
 typedef struct Stack
 {
@@ -106,50 +106,65 @@ void printStack(Stack_t * stack)
 bool isValid(char* s) 
 {
     // edge case for string length is 1
-    int sIndex = strlen(s);
-    if(sIndex == 1)
+    int sLength = strlen(s);
+    if(sLength == 1)
     {
         return false;
     }
 
-    
+    int sIndex = 0;
+
     Stack_t * myStack = createStack();
-    while(sIndex > 0)
+    while(sIndex < sLength)
     {
         char nextChar = s[sIndex];
         if(nextChar == '[' || nextChar == '(' || nextChar == '{')//if open bracket
         {
             push(myStack, nextChar);
         }
-        else if(nextChar == ']' || nextChar == ')' || nextChar == '}')
+        else if(nextChar == ']' || nextChar == ')' || nextChar == '}') //if closing bracket
         {
             if(isEmpty(myStack))
             {
                 return false;
             }
+            else
+            {
+                char popedVal = pop(myStack);
+
+                //the int value distance between the same bracket type is less then 2 in the ascii table
+                if(abs(popedVal - nextChar) > 2)
+                {
+                    return false;
+                }
+            }
         }
-        else
-        {
-            //TODO continue here
-        }
+
+        sIndex++;
     }
 
+    if(isEmpty(myStack))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void main()
 {
-    char inputChars[] ={'[' ,'}' ,')'};
-
-    // Stack_t * myStack = createStack();
-
-    // for(int i = 0; i < sizeof(inputChars)/sizeof(inputChars[0]); i++)
-    // {
-    //     push(myStack, inputChars[i]);
-    // }
-
-    // printStack(myStack);
-    // pop(myStack);
-    // printStack(myStack);
+    //enter use case here
+    char inputChars[] ="()[]{}";
+    if(isValid(inputChars))
+    {
+        printf("The string has valid parentheses\n");
+    }
+    else
+    {
+        printf("The stirng has NOT valid parentheses\n");
+    }
 
     return;
 }
