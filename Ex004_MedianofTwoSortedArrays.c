@@ -34,7 +34,7 @@ nums2.length == n
 #include <stdio.h>
 #include <string.h>
 
-//TODO Ex4 not done
+//TODO Ex4 not done yet
 
 double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size) 
 {

@@ -42,7 +42,7 @@ Constraints:
  * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
  */
 
-//TODO Ex15 not done
+//TODO Ex15 not done yet
 
 int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) 
 {

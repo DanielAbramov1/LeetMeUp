@@ -31,7 +31,7 @@ Follow up: Could you do this in one pass?
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 
-//TODO Ex18 not done
+//TODO Ex18 not done yet
 
 /**
  * Return an array of arrays of size *returnSize.

@@ -35,7 +35,7 @@ digits[i] is a digit in the range ['2', '9'].
  */
 
 
-//TODO Ex17 not done
+//TODO Ex17 not done yet
 
 char** letterCombinations(char* digits, int* returnSize) 
 {

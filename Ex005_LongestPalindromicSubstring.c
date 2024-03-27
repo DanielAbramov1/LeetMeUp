@@ -28,7 +28,7 @@ s consist of only digits and English letters.
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 
-//TODO Ex5 not done
+//TODO Ex5 not done yet
 
 char* longestPalindrome(char* s) 
 {

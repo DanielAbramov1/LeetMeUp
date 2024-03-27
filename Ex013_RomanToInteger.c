@@ -48,7 +48,7 @@ It is guaranteed that s is a valid roman numeral in the range [1, 3999].
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 
-//TODO Ex13 not done
+//TODO Ex13 not done yet
 
 int romanToInt(char* s) 
 {
