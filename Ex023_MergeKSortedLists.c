@@ -74,7 +74,7 @@ ListNode_t * createNode(void)
 }
 
 // returns true if all lists in the array are empty
-bool isEmptyListArray(struct ListNode** lists, int listsSize) 
+bool isListArrayEmpty(struct ListNode** lists, int listsSize) 
 {
   int k = 0;
   int countEmptyLists = 0;
@@ -137,18 +137,67 @@ int smallestValIndex(struct ListNode** lists, int listsSize)
   return smallestValIndex;
 }
 
-//TODO continue here - here we need to trim and rearrange the pointers
 struct ListNode* mergeKLists(struct ListNode** lists, int listsSize) 
 {
-  if(isEmptyListArray(lists, listsSize))
+  if(isListArrayEmpty(lists, listsSize))
   {
     printf("All the lists in the list array are empty\n");
     return NULL;
   }
 
-  return NULL;
+  // creating dummy node for easier first connection, later will free it
+  struct ListNode * head = createNode();
+
+  // for not loosing the head;
+  struct ListNode * tail = head; 
+
+  while (!isListArrayEmpty(lists, listsSize))
+  {
+    // find the k index which node need to trim and connect to merged list
+    int k = smallestValIndex(lists, listsSize);
+
+    // connect the smallest val node to merged
+    tail->next = *(lists + k);
+
+    // point to the new node (the last node of the merged)
+    tail = tail->next;
+
+    // move the pointer from the smallest val node to the next one
+    *(lists + k) = (*(lists + k))->next;
+
+    // disconnect the merged list node from the list[k]
+    tail->next = NULL;
+  }
+
+  // moving head to point for the first element of the merged list and free the dummy node
+  struct ListNode * dummy = head;
+  head = head->next;
+  free(dummy);
+
+  return head;
 }
 
+/* Code for manual check
+void printList(ListNode_t * listToPrint)
+{
+  // for not loosing the head
+  ListNode_t * temp = listToPrint;
+  if(temp == NULL)
+  {
+    printf("list is null\n");
+    return;
+  }
+
+  printf("List = ");
+  while (temp != NULL)
+  {
+    printf("%d->",temp->val);
+    temp = temp->next;
+  }
+  printf("NULL(end of list)\n");
+  
+  return;
+}
 
 void main()
 {
@@ -162,14 +211,23 @@ void main()
 
   struct ListNode * lists[] = {NULL, list2, NULL, list4, list5};
 
+  for(int i = 0; i < sizeof(lists)/sizeof(lists[0]); i++)
+  {
+    printf("the %d list is: ", i+1);
+    printList(lists[i]);
+  }
+
   printf("the smallest is in list number:%d\n",smallestValIndex(lists, sizeof(lists)/sizeof(lists[0])) + 1);
 
-  // struct ListNode * merged = createNode();
-  // merged = mergeKLists(lists, sizeof(lists)/sizeof(lists[0]));
+  struct ListNode * merged = mergeKLists(lists, sizeof(lists)/sizeof(lists[0]));
 
-  free(list2);
-  free(list4);
-  free(list5);
-  // free(merged);
+  printf("the merged list is: ");
+  printList(merged);
+
+  // free(list2);
+  // free(list4);
+  // free(list5);
+  free(merged);
   return;
 }
+*/
