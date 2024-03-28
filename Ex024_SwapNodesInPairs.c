@@ -34,14 +34,89 @@ The number of nodes in the list is in the range [0, 100].
  * };
  */
 
-struct ListNode* swapPairs(struct ListNode* head) 
+#include "common.h"
+
+typedef struct ListNode 
 {
-    
+  int val;
+  struct ListNode *next;
+};
+
+// create new node
+struct ListNode * createNode(void)
+{
+  struct ListNode * p = (struct ListNode *)malloc(sizeof(struct ListNode));
+  if(p == NULL)
+  { 
+    printf("Couldn't allocate memory <>\n");
+    return NULL;
+  }
+
+  p->val = 0;
+  p->next = NULL;
+
+  return p;
 }
 
+struct ListNode* swapPairs(struct ListNode* head) 
+{
+    // edge case for 0 and 1 nodes in the list
+    if(head == NULL || head->next == NULL)
+    {
+        printf("No need to swap the list\n");
+        return head;
+    }
 
+    // swap helpers
+    struct ListNode * temp = head;
+    struct ListNode * swapTail = head->next;
+
+    // new pointers to keep track of the swapped list, crating dummy node for easy first time swap
+    struct ListNode * newHead = createNode();
+    struct ListNode * newTail = newHead;
+
+    while(head != NULL)
+    {
+        // move 2 nodes
+        head = head->next->next;
+
+        // connecting and swapping
+        newTail->next = swapTail;
+        swapTail->next = temp;
+        temp->next = NULL;
+
+        // keep track of swapped list tail
+        newTail = temp;
+
+        // checking last nodes
+        if(head != NULL)
+        {
+            // if only 1 lnode left
+            if(head->next == NULL)
+            {
+                newTail->next = head;
+                head = head->next;
+            }
+            else
+            {
+                temp = head;
+                swapTail = head->next;
+            }
+        }
+    }
+
+    // free dummy node
+    newTail = newHead;
+    newHead = newHead->next;
+    free(newTail);
+
+    return newHead;
+}
+
+/* Code for manual check
 void main()
 {
 
     return;
 }
+*/
