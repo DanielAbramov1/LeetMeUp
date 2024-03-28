@@ -16,7 +16,7 @@ def delete_exe_files():
 
         # Iterate through the files and delete .exe files
         for file in files:
-            if file.endswith(".exe"):
+            if file.endswith(".exe") or file.endswith("RunnerFile.c"):
                 os.remove(file)
                 print(f"Deleted {file}")
 
