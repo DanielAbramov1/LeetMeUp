@@ -40,116 +40,184 @@ Follow-up: Can you solve the problem in O(1) extra memory space?
 */
 
 #include "common.h"
-#define ENABLE_TESTING
+// #define ENABLE_TESTING
 
 typedef struct ListNode 
 {
-  int val;
-  struct ListNode *next;
+    int val;
+    struct ListNode *next;
 
 }ListNode;
 
 // create new node
 struct ListNode * createNode(void)
 {
-  struct ListNode * p = (struct ListNode *)malloc(sizeof(struct ListNode));
-  if(p == NULL)
-  { 
-    printf("Couldn't allocate memory <>\n");
-    return NULL;
-  }
+    struct ListNode * p = (struct ListNode *)malloc(sizeof(struct ListNode));
+    if(p == NULL)
+    { 
+        printf("Couldn't allocate memory <createNode>\n");
+        return NULL;
+    }
 
-  p->val = 0;
-  p->next = NULL;
+    p->val = 0;
+    p->next = NULL;
 
-  return p;
+    return p;
 }
 
 // count node in a list or sub list
-int nodesInList(struct ListNode* head , struct ListNode* tail)
+int nodesInList(struct ListNode* head)
 {
-  int num = 1; 
-  while(head != tail)
-  {
-    num++;
-    head = head->next;
-  }
-  return num;
+    if(head == NULL)
+    {
+        printf("Head is NULL <nodesInList>\n");
+        return 0;
+    }
+
+    int num = 0;
+    while(head != NULL)
+    {
+        num++;
+        head = head->next;
+    }
+    return num;
+}
+
+// releasing dummy node
+struct ListNode * releaseDummyNode(struct ListNode * head)
+{
+    if(head == NULL)
+    {
+        printf("Head is NULL <releaseDummyNode>\n");
+        return NULL;
+    }
+    else if(head->next == NULL)
+    {
+        printf("Head->next is NULL <releaseDummyNode>\n");
+        return NULL;
+    }
+    else
+    {
+        struct ListNode * temp = head;
+        head = head->next;
+        free(temp);
+        return head;
+    }
+
 }
 
 // reverse a list or sub list
 struct ListNode * reverseList(struct ListNode* head , struct ListNode* tail)
 {
-  //create dummy node
-  struct ListNode * newHead = createNode();
-  struct ListNode * newTail = newHead;
+    //create dummy node
+    struct ListNode * newHead = createNode();
+    struct ListNode * newTail = newHead;
 
-  // iterator for the original list
-  struct ListNode * temp = head;
+    // iterator for the original list
+    struct ListNode * temp = head;
 
-  while(head != tail)
-  {
-    if(temp->next == tail)
+    while(head != tail)
     {
-        // disconnect the last node of the original list
-        tail->next = NULL;
+        if(temp->next == tail)
+        {
+            // disconnect the last node of the original list
+            tail->next = NULL;
 
-        // connect node to reversed list
-        newTail->next = tail;
-        newTail = newTail->next;
+            // connect node to reversed list
+            newTail->next = tail;
+            newTail = newTail->next;
 
-        // get back 1 node in the OG list
-        tail = temp;
+            // get back 1 node in the OG list
+            tail = temp;
 
-        // return temp to head of OG list
-        temp = head;
+            // return temp to head of OG list
+            temp = head;
+        }
+        else
+        {
+            // increament interator
+            temp = temp->next;
+        }
     }
-    else
-    {
-        // increament interator
-        temp = temp->next;
-    }
-  }
 
-  // connect last node
-  head->next = NULL;
-  newTail->next = head;
+    // connect last node
+    head->next = NULL;
+    newTail->next = head;
 
-  // release dummy node
-  newTail = newHead;
-  newHead = newHead->next;
-  free(newTail);
+    // release dummy node
+    newHead = releaseDummyNode(newHead);
 
-  return newHead;
+    return newHead;
 }
 
-
-struct ListNode* reverseKGroup(struct ListNode* head, int k) 
+/*Runtime Complexity = O(n), Memory Complexity O(1)*/
+struct ListNode * reverseKGroup(struct ListNode* head, int k) 
 {
-    
+    // temp vars for processing
+    struct ListNode * tempHead = head;
+    struct ListNode * tempTail = head;
+
+    // after processing vars
+    struct ListNode * newHead = createNode();
+    struct ListNode * newTail = newHead;
+
+    while(nodesInList(head) >= k)
+    {
+        // moving the head k nodes, and the temp vals k-1 for processing reverse
+        for(int i = 0; i < k-1; i++)
+        {
+            tempTail = tempTail->next;
+        }
+        head = tempTail->next;
+
+        // reverse sub-list
+        struct ListNode * reversedSubList = reverseList(tempHead, tempTail);
+
+        // connect sub-list to main reversed list
+        newTail->next = reversedSubList;
+
+        // moving the new tail to the last node of the reversed list
+        for(int i = 0; i < k; i++)
+        {
+            newTail = newTail->next;
+        }
+
+        // move temps to point to current head after processing
+        tempHead = head;
+        tempTail = head;
+    }
+
+    // connecting the remainder of the OG list
+    newTail->next = head;
+
+    // release first dummy node
+    newHead = releaseDummyNode(newHead);
+
+    return newHead;
 }
+
 
 #ifdef ENABLE_TESTING
 
 void printList(struct ListNode * listToPrint)
 {
-  // for not loosing the head
-  struct ListNode * temp = listToPrint;
-  if(temp == NULL)
-  {
-    printf("list is null\n");
-    return;
-  }
+    // for not loosing the head
+    struct ListNode * temp = listToPrint;
+    if(temp == NULL)
+    {
+        printf("list is null\n");
+        return;
+    }
 
-  printf("List = ");
-  while (temp != NULL)
-  {
-    printf("%d->",temp->val);
-    temp = temp->next;
-  }
-  printf("NULL(end of list)\n");
-  
-  return;
+    printf("List = ");
+    while (temp != NULL)
+    {
+        printf("%d->",temp->val);
+        temp = temp->next;
+    }
+    printf("NULL(end of list)\n");
+    
+    return;
 }
 
 void freeAllNodeInList(struct ListNode* head)
@@ -169,27 +237,35 @@ void main()
 {
     struct ListNode* myHead = createNode();
     struct ListNode* node2 = createNode();
-    struct ListNode* node3 = createNode();
-    struct ListNode* node4 = createNode();
+    // struct ListNode* node3 = createNode();
+    // struct ListNode* node4 = createNode();
+    // struct ListNode* node5 = createNode();
 
     myHead->val = 1;
     node2->val = 2;
-    node3->val = 3;
-    node4->val = 4;
+    // node3->val = 3;
+    // node4->val = 4;
+    // node5->val = 5;
 
     myHead->next = node2;
-    node2->next = node3;
-    node3->next = node4;
+    // node2->next = node3;
+    // node3->next = node4;
+    // node4->next = node5;
 
 
     printList(myHead);
-    printf("node in list : %d\n", nodesInList(myHead, node4));
+    // printf("node in list : %d\n", nodesInList(myHead));
     
-    struct ListNode* reversedList = reverseList(myHead, node4);
+    // struct ListNode* reversedList = reverseList(myHead, node4);
 
-    printList(reversedList);
+    // printList(reversedList);
 
-    freeAllNodeInList(reversedList);
+    // freeAllNodeInList(reversedList);
+
+    struct ListNode * revesedHead = reverseKGroup(myHead, 2);
+    printList(revesedHead);
+    freeAllNodeInList(revesedHead);
+
     return;
 }
 
