@@ -7,11 +7,10 @@
 #include <string.h>
 #include <math.h>
 #include <limits.h>
+#include <stdbool.h>
 
 
 // macros
-#define true    1
-#define false   0
 #define CHECK_VALID_PTR(ptr) \
     if(ptr == NULL) { \
         printf("Couldn't allocate memory <>\n"); \
