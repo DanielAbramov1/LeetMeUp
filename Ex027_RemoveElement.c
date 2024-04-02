@@ -49,8 +49,30 @@ Constraints:
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 
+#include "common.h"
+// #define ENABLE_TESTING
 
 int removeElement(int* nums, int numsSize, int val) 
 {
-    
+    int k = 0;
+
+    for(int i = 0; i < numsSize; i++)
+    {
+        if(*(nums + i) != val)
+        {
+            *(nums + k) = *(nums + i);
+            k++;
+        }
+    }
+    return k;
 }
+
+#ifdef ENABLE_TESTING
+void main()
+{
+
+
+    return;
+}
+
+#endif
