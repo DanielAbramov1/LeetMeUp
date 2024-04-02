@@ -45,8 +45,35 @@ nums is sorted in non-decreasing order.
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 
+#include "common.h"
+// #define ENABLE_TESTING
 
 int removeDuplicates(int* nums, int numsSize) 
 {
+    // save the first number in the array
+    int currentNum = *nums;
+    int k = 0;
+
+    for(int i = 1; i < numsSize; i++)
+    {
+        if(currentNum != *(nums + i))
+        {
+            currentNum = *(nums +i);
+            k++;
+            *(nums + k) = currentNum;
+        }
+    }
+
+    return k+1;
     
 }
+
+#ifdef ENABLE_TESTING
+void main()
+{
+
+
+    return;
+}
+
+#endif
