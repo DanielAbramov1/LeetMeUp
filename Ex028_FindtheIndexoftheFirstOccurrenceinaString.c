@@ -24,7 +24,80 @@ haystack and needle consist of only lowercase English characters.
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 
+#include "common.h"
+#define ENABLE_TESTING
+
 int strStr(char* haystack, char* needle) 
 {
+    int returnIndex = -1;
+    int haystackLen = strlen(haystack);
+    int needleLen = strlen(needle);
+
+    // return -1 if the needle len is greater then haystack len
+    if(needleLen > haystackLen)
+        return returnIndex;
+
+    // needle string iterator
+    int k = 0;
+
+    bool firstLatterInNeedleFlag = true;
     
+    for(int i = 0; i < haystackLen; i++)
+    {
+        if(*(haystack + i) == *(needle + k))
+        {
+            // save the first index in the haystack
+            if(firstLatterInNeedleFlag)
+            {
+                returnIndex = i;
+                firstLatterInNeedleFlag = false;
+            }
+
+            k++;
+
+            // number of the same chars is as needle then break
+            if(k == needleLen)
+                break;
+        }
+        else
+        {
+            // if the previous char in the haystack is the same as the first char in the needle
+            if (i > 0 )
+            {
+                if(*(haystack + i - 1) == *needle)
+                {
+                    k = 1;
+                    i--;
+                    returnIndex = i;
+                    firstLatterInNeedleFlag = false;
+                }
+                
+            }
+            else
+            {
+                k = 0;
+                returnIndex = -1;
+                firstLatterInNeedleFlag = true;
+            }
+
+        }
+    }
+
+    if(k < needleLen)
+        returnIndex = -1;
+
+    return returnIndex;   
 }
+
+#ifdef ENABLE_TESTING
+void main()
+{
+    char needle[] = "issip";
+    char haystack[] = "misissippt";
+
+    printf("the first index is %d\n", strStr(haystack,needle));
+
+    return;
+}
+
+#endif
