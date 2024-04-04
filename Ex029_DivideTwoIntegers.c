@@ -32,6 +32,7 @@ divisor != 0
 
 #include "common.h"
 #include <stdint.h>
+// #define ENABLE_TESTING
 
 bool isSigned(int num)
 {
@@ -95,6 +96,7 @@ int divide(int dividend, int divisor)
 
 }
 
+#ifdef ENABLE_TESTING
 void main()
 {
     int a = -2147483648;
@@ -114,3 +116,4 @@ void main()
     printf("Dividing test without multiply and devision operators on %d / %d = %d\n", a, b, divide(a,b));
     return;
 }
+#endif
