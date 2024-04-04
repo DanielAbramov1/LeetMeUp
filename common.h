@@ -8,6 +8,7 @@
 #include <math.h>
 #include <limits.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 
 // macros
