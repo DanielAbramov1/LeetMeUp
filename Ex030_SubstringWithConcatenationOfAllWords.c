@@ -47,6 +47,8 @@ s and words[i] consist of lowercase English letters.
  * Note: The returned array must be malloced, assume caller calls free().
  */
 
+//TODO Ex30 not done
+
 #include "common.h"
 #define ENABLE_TESTING
 
@@ -55,9 +57,37 @@ int* findSubstring(char* s, char** words, int wordsSize, int* returnSize)
     
 }
 
+
+#define MAX_LEN 100 // Maximum length of each string
+#define MAX_WORDS 100 // Maximum number of words
+
+void printCombinations(char** words, int n) 
+{
+    int totalCombinations = 1 << n; // Total number of combinations is 2^n
+
+    for (int mask = 0; mask < totalCombinations; mask++) 
+    {
+        char current[MAX_LEN * MAX_WORDS + 1]; // Initialize current combination
+        current[0] = '\0'; // Null-terminate the string
+
+        for (int i = 0; i < n; i++) 
+        {
+            if (mask & (1 << i)) { // Check if word at index i is included in the current combination
+                strcat(current, *(words + i)); // Concatenate the word using pointer arithmetic
+            }
+        }
+
+        printf("%s\n", current); // Print the current combination
+    }
+}
+
+
 #ifdef ENABLE_TESTING
 void main()
 {
+    char * words[] = {"bar","foo","the"};
+    printCombinations(words, 3);
+
 
     return;
 }
