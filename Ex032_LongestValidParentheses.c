@@ -33,7 +33,7 @@ s[i] is '(', or ')'.
 #define ENABLE_TESTING
 
 
-#define MAX_STACK_SIZE 15000 // half the string max length
+#define MAX_STACK_SIZE 100 // half the string max length
 
 typedef struct Stack
 {
@@ -51,6 +51,18 @@ Stack_t * createStack()
     newStack->top = -1;
 
     return newStack;
+}
+
+void printStack(Stack_t * stack)
+{
+    printf("printing stack from top to bottom --->||\t ");
+    for(int i = stack->top; i >= 0; i--)
+    {
+        printf("\t%c",stack->items[i]);
+    }
+    printf(" ||\n");
+
+    return;
 }
 
 bool isEmpty(Stack_t * stack)
@@ -103,11 +115,15 @@ char peek(Stack_t * stack)
 
 int longestValidParentheses(char* s) 
 {
-    if(s == NULL || s == '\0')
+    if(s == NULL || *s == '\0')
         return 0;
 
     Stack_t * stack = createStack();
     int sSize = strlen(s);
+
+    bool startedCount = false;
+    int count = 0;
+    int maxCount = 0;
 
     for(int i = 0; i < sSize ;i++)
     {
@@ -115,43 +131,60 @@ int longestValidParentheses(char* s)
 
         if(!isEmpty(stack))
         {
-            char topStackChar = peek(stack);
-            if(topStackChar == '(' && charFromString == ')')
+            if(charFromString == '(')
             {
-                topStackChar = pop(stack); // discard the popped value
-            }
-            else
-            {
+                startedCount = true;
+                count++; //TODO maybe remore this
                 push(stack, charFromString);
             }
+            else // ')'
+            {
+                char p = peek(stack);
+                if(peek(stack) == '(')
+                {
+                    pop(stack);
+                    count++;
+                }
+                else
+                {
+                    push(stack, charFromString);
+                    startedCount = false;
+                }
+            }
         }
-        else //stack empty
+        else // stack empty
         {
             push(stack, charFromString);
+            startedCount = false;
+        }
+
+
+        if(startedCount)
+        {
+            maxCount = MAX(maxCount, count);
+        }
+        else
+        {
+            count = 0;
         }
     }
 
-    return sSize - (stack->top + 1);
+    return maxCount;
 }
 
 #ifdef ENABLE_TESTING
-void printStack(Stack_t * stack)
-{
-    printf("printing stack from top to bottom --->||\t ");
-    for(int i = stack->top; i >= 0; i--)
-    {
-        printf("\t%c",stack->items[i]);
-    }
-    printf(" ||\n");
 
-    return;
-}
 
 void main()
 {
     //TODO debug this test carse
-    char inputChars[] ="()(()";
+    char inputChars[] = ")(";
+    // char inputChars[] ="()(()"; //works
+    // char inputChars[] = "(()"; // works
+    // char inputChars[] = ""; //works
+    // char inputChars[] = ")()())"; //works
 
+    int yosi = longestValidParentheses(inputChars);
 
     return;
 }
