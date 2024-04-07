@@ -36,16 +36,86 @@ Constraints:
 */
 
 #include "common.h"
-#define ENABLE_TESTING
+// #define ENABLE_TESTING
+
+#define MAX_CONSTRAIN_VAL (int)100
+
+int * reverseSubArray(int *arr , int arrSize, int startIndex, int endIndex)
+{
+    // checking valid inputs
+    if(startIndex < 0 || endIndex < 0 || startIndex > arrSize - 1 || endIndex > arrSize - 1 || startIndex > endIndex)
+    {
+        printf("Input failure <reverseSubArray>\n");
+        return arr;
+    }
+
+    int temp;
+    while (startIndex < endIndex)
+    {
+        temp = *(arr + startIndex);
+        *(arr + startIndex) = *(arr + endIndex);
+        *(arr + endIndex) = temp;
+
+        startIndex++;
+        endIndex--;
+    }
+    
+    return arr;
+}
+
 
 void nextPermutation(int* nums, int numsSize) 
 {
+    int i;
+    int j;
+
+    int smallestNum = MAX_CONSTRAIN_VAL;
+    int smalletstNumIndex;
+    int swapTemp;
+
+    // find the first element that is smaller than its immediate right neighbor
+    for(i = numsSize - 2; i >= 0; i--)
+    {
+        if(*(nums + i) < *(nums + i + 1))
+        {
+            break;
+        }
+    }
+
+    // if i==-1 the array is in descending order, and it is already the largest permutation
+    if(i != -1)
+    {
+        //Find the smallest element to the right of index i that is greater than the element at index i
+        for(j = i + 1; j < numsSize; j++)
+        {
+            if(*(nums + j) > *(nums + i) && *(nums + j) <= smallestNum)
+            {
+                smallestNum = *(nums + j);
+                smalletstNumIndex = j;
+            }
+        }
+        // swap smallest with val in index i
+        swapTemp = *(nums + smalletstNumIndex);
+        *(nums + smalletstNumIndex) = *(nums + i);
+        *(nums + i) = swapTemp;
+    }
+
+    nums = reverseSubArray(nums, numsSize, i + 1, numsSize-1);
     
 }
 
 #ifdef ENABLE_TESTING
 void main()
 {
+    int arr[] = {2,3,1,3,3};
+    int arrSize = sizeof(arr)/sizeof(arr[0]);
+
+    // printf("checking function reverseSubArray():\n");
+    // reverseSubArray(arr, arrSize, 0,15);
+    // printArray(arr, arrSize);
+    nextPermutation(arr, arrSize);
+    printArray(arr, arrSize);
+
 
     return;
 }
