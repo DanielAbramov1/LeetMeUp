@@ -34,18 +34,71 @@ nums is an ascending array that is possibly rotated.
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 #include "common.h"
-#define ENABLE_TESTING
+// #define ENABLE_TESTING
 
 int search(int* nums, int numsSize, int target) 
 {
+    // initiate indexes for binary search on an array
+    int left = 0;
+    int right = numsSize - 1;
 
+    while(left <= right)
+    {
+        // to reach O(log n)
+        int middle = (left + right)/2;
+
+        // check that one of the indexes is pointing on target
+        if(*(nums + middle) == target)
+        {
+            return middle;
+        }
+        else if(*(nums + left) == target)
+        {
+            return left;
+        }
+        else if(*(nums + right) == target)
+        {
+            return right;
+        }
+
+        if(*(nums + left) < *(nums + middle)) // left side is sorted relative to middle index
+        {
+            if(*(nums + left) <= target && target < *(nums + middle)) // target is somewhere is the left side
+            {
+                right = middle - 1;
+            }
+            else // target is somewhere in the right side 
+            {
+                left = middle + 1;
+            }
+        }
+        else // right side is sorted relative to middle index
+        {
+            if(*(nums + right) >= target && target > *(nums + middle)) // target is somewhere is the right side
+            {
+                left = middle + 1;
+            }
+            else // target is somewhere in the left side 
+            {
+                right = middle - 1;
+            }
+        }
+    }
+
+    return -1; // if the target is not in the array
 }
 
 
 #ifdef ENABLE_TESTING
 void main()
 {
-
+    // int arr[] = {3,1};
+    // int target = 1;
+    // int arr[] = {4,5,6,7,0,1,2};
+    // int target = 0;
+    int arr[] = {8,1,2,3,4,5,6,7};
+    int target = 6;
+    printf("%d\n", search(arr, sizeof(arr)/sizeof(arr[0]), target));
     return;
 }
 #endif
