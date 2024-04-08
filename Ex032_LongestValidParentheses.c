@@ -30,162 +30,88 @@ s[i] is '(', or ')'.
 */
 
 #include "common.h"
-#define ENABLE_TESTING
+// #define ENABLE_TESTING
 
+int longestValidParentheses(char *s) {
+    int maxLen = 0;
+    int len = strlen(s);
+    int *dp = (int *)malloc(len * sizeof(int));
 
-#define MAX_STACK_SIZE 100 // half the string max length
+    memset(dp, 0, len * sizeof(int));
 
-typedef struct Stack
-{
-    char items[MAX_STACK_SIZE];
-    int top;
-
-}Stack_t;
-
-Stack_t * createStack()
-{
-    Stack_t * newStack = (Stack_t*)malloc(sizeof(Stack_t));
-
-    //init new stack
-    memset(newStack, 0, sizeof(Stack_t));
-    newStack->top = -1;
-
-    return newStack;
-}
-
-void printStack(Stack_t * stack)
-{
-    printf("printing stack from top to bottom --->||\t ");
-    for(int i = stack->top; i >= 0; i--)
+    for (int i = 1; i < len; i++) 
     {
-        printf("\t%c",stack->items[i]);
-    }
-    printf(" ||\n");
-
-    return;
-}
-
-bool isEmpty(Stack_t * stack)
-{
-    return stack->top == -1;
-}
-
-bool isFull(Stack_t * stack)
-{
-    return stack->top == MAX_STACK_SIZE-1;
-}
-
-void push(Stack_t * stack, char ch)
-{
-    if(isFull(stack))
-    {
-        printf("Stack overflow - push operation failed\n");
-        return;
-    }
-
-    stack->top++;
-    stack->items[stack->top] = ch;
-    return; 
-}
-
-char pop(Stack_t * stack)
-{
-    if(isEmpty(stack))
-    {
-        printf("Stack is empty - pop operation failed\n");
-        return 0;
-    }
-
-    char ch = stack->items[stack->top];
-    stack->items[stack->top] = 0; // for visual debug purpose
-    stack->top--;
-    return ch;
-}
-
-char peek(Stack_t * stack)
-{
-    if(isEmpty(stack))
-    {
-        printf("Stack is empty - pop operation failed\n");
-        return 0;
-    }
-
-    return stack->items[stack->top];
-}
-
-int longestValidParentheses(char* s) 
-{
-    if(s == NULL || *s == '\0')
-        return 0;
-
-    Stack_t * stack = createStack();
-    int sSize = strlen(s);
-
-    bool startedCount = false;
-    int count = 0;
-    int maxCount = 0;
-
-    for(int i = 0; i < sSize ;i++)
-    {
-        char charFromString = *(s + i);
-
-        if(!isEmpty(stack))
+        if (s[i] == ')' && i - dp[i - 1] - 1 >= 0 && s[i - dp[i - 1] - 1] == '(') 
         {
-            if(charFromString == '(')
+            dp[i] = dp[i - 1] + 2;
+            if (i - dp[i - 1] - 2 >= 0) 
             {
-                startedCount = true;
-                count++; //TODO maybe remore this
-                push(stack, charFromString);
+                dp[i] += dp[i - dp[i - 1] - 2];
             }
-            else // ')'
-            {
-                char p = peek(stack);
-                if(peek(stack) == '(')
-                {
-                    pop(stack);
-                    count++;
-                }
-                else
-                {
-                    push(stack, charFromString);
-                    startedCount = false;
-                }
-            }
-        }
-        else // stack empty
-        {
-            push(stack, charFromString);
-            startedCount = false;
-        }
-
-
-        if(startedCount)
-        {
-            maxCount = MAX(maxCount, count);
-        }
-        else
-        {
-            count = 0;
+            maxLen = maxLen > dp[i] ? maxLen : dp[i];
         }
     }
 
-    return maxCount;
+    free(dp);
+    return maxLen;
 }
 
 #ifdef ENABLE_TESTING
-
-
 void main()
 {
-    //TODO debug this test carse
-    char inputChars[] = ")(";
-    // char inputChars[] ="()(()"; //works
-    // char inputChars[] = "(()"; // works
-    // char inputChars[] = ""; //works
-    // char inputChars[] = ")()())"; //works
+    int choise = 0;
+    while(choise != -1)
+    {
+        char inputChars[20] = {0};
+        printf("\nEnter debug choise 1-8, -1 for exit:");
+        scanf("%d", &choise);
 
-    int yosi = longestValidParentheses(inputChars);
+        switch(choise)
+        {
+            case 1:
+                strncpy(inputChars,  "(()", sizeof("(()"));
+                printf("expected 2 result is:");
+                break;
+            case 2:
+                strncpy(inputChars,  ")()())", sizeof(")()())"));
+                printf("expected 4 result is:");
+                break;
+            case 3:
+                strncpy(inputChars,  "", sizeof(""));
+                printf("expected 0 result is:");
+                break;
+            case 4:
+                strncpy(inputChars,  ")(", sizeof(")("));
+                printf("expected 0 result is:");
+                break;
+            case 5:
+                strncpy(inputChars,  "()", sizeof("()"));
+                printf("expected 2 result is:");
+                break;
 
+            case 6:
+                printf("expected 2 result is:");
+                strncpy(inputChars, "())",sizeof("())"));
+                break;
+            case 7:
+                printf("expected 4 result is:");
+                strncpy(inputChars, "()()",sizeof("()()"));
+                break;
+
+            case 8:
+                printf("expected 2 result is:");
+                strncpy(inputChars, "()(()",sizeof("()(()"));
+                break;
+
+            case -1:
+                return;
+
+            default:
+                break;
+        }
+        printf("%d\n" ,longestValidParentheses(inputChars));
+    }
+    
     return;
 }
 #endif
