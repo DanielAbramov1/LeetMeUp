@@ -30,7 +30,7 @@ nums contains distinct values sorted in ascending order.
 ----------------------------------------------------------------------------------------------------------------------------------
 */
 #include "common.h"
-#define ENABLE_TESTING
+// #define ENABLE_TESTING
 
 int searchInsert(int* nums, int numsSize, int target) 
 {
@@ -70,7 +70,7 @@ int searchInsert(int* nums, int numsSize, int target)
             // the target is not in the array
             if(left - middle == 1  && target < *(nums + left) && target > *(nums + middle))
             {
-                resultIndex = middle;
+                resultIndex = left;
                 break;
             }
         }
