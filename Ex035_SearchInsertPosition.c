@@ -34,11 +34,98 @@ nums contains distinct values sorted in ascending order.
 
 int searchInsert(int* nums, int numsSize, int target) 
 {
+
+
+    // 2 pointers approch for binary search
+    int left = 0;
+    int right = numsSize - 1;
+
+    // target is greater then the last element of the array
+    if(target > *(nums + right))
+        return numsSize;
     
+    // targer is lower then the first element of the array
+    if(target < *(nums + left))
+        return 0;
+
+
+    int resultIndex = -1;
+
+    // iterate until left reaches/passes right
+    while(left <= right)
+    {
+        int middle = (left + right)/2;
+
+        if(*(nums + middle) < target)// the targets are on the right side relative to the middle
+        {
+            left = middle + 1;
+
+            // left pointer hits the target
+            if(target == *(nums + left))
+            {
+                resultIndex = left;
+                break;
+            }
+
+            // the target is not in the array
+            if(left - middle == 1  && target < *(nums + left) && target > *(nums + middle))
+            {
+                resultIndex = middle;
+                break;
+            }
+        }
+
+        else if(*(nums + middle) > target)// the targets are on the left side relative to the middle
+        {
+            right = middle - 1;
+
+            // right pointer hits the target
+            if(target == *(nums + right))
+            {
+                resultIndex = right;
+                break;
+            }
+
+            // the target is not in the array
+            if(middle - right == 1  && target > *(nums + right) && target < *(nums + middle))
+            {
+                resultIndex = middle;
+                break;
+            }
+
+        }
+
+        else // hit the target
+        {
+            resultIndex = middle;
+            break; // can exit loop
+        }
+
+    }
+
+    return resultIndex;
 }
 
-void main()
-{
+#ifdef ENABLE_TESTING
+    void main()
+    {
+        // test case 1
+        // int myArr[] ={1,3,5,6};
+        // int target = 5;
 
-    return;
-}
+        // test case 2
+        // int myArr[] ={1,3,5,6};
+        // int target = 2;
+
+        // test case 3
+        // int myArr[] ={1,3,5,6};
+        // int target = 7;
+
+        // test case 4
+        int myArr[] ={1,3};
+        int target = 2;
+
+        printf("the target should be in index : %d\n",searchInsert(myArr, sizeof(myArr)/sizeof(myArr[0]), target));
+        return;
+    }
+#endif
