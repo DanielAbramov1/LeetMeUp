@@ -116,6 +116,11 @@ int* searchRange(int* nums, int numsSize, int target, int* returnSize)
                 {
                     *(returnArray) = left;
                 }                
+            }
+            else
+            {
+                left++;
+                right--;
             }   
         }
 
@@ -158,7 +163,7 @@ void main()
 
     int arr[] = {2,2};
     int size = sizeof(arr)/sizeof(arr[0]);
-    int target = 2;
+    int target = 1;
 
     int returnSize;
     int * returnArr = searchRange(arr, size, target, &returnSize);
